@@ -1,0 +1,46 @@
+<h3>View Your Cart</h3>
+
+
+<div class="row">
+    <table class="highlight col s8">
+        <thead>
+            <tr>
+                <th>Bundle</th>
+                <th>Item Name</th>
+                <th>Item Category</th>
+                <th>Item Price</th>
+                <th>Bundle Price</th>
+            </tr>
+        </thead>
+
+        <tbody>
+          <% cart.forEach(function(data1){ %>
+            <% data1.items.forEach(function(data2){ %>
+            <% item.forEach(function(data){ %>
+              <% if (data2 == data.id) {%>
+                <tr>
+                    <td>
+                    <% if (data1.bundle === true && data1.gender === "female"){ %>
+                        Women Bundle
+                    <%  } else {%>
+                        Men Bundle
+                        <% } %>
+                    </td>
+                    <td>
+                        <%= data.item %>
+                    </td>
+                    <td>
+                        <%= data.category %>
+                    </td>
+                    <td>
+                        <%= data.price %>
+                    </td>
+                    <td>
+                        <%= data1.price %>
+                    </td>
+                </tr>
+                <% }})})}) %>
+        </tbody>
+    </table>
+
+</div>

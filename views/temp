@@ -1,0 +1,56 @@
+
+
+
+<div class="row">
+    <table class="highlight col s8">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Item Category</th>
+                <th>Item Price</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% item.forEach(function(data){ %>
+                <tr>
+                    <td>
+                        <%= data.item %>
+                    </td>
+                    <td>
+                        <%= data.category %>
+                    </td>
+                    <td>
+                        <%= data.price %>
+                    </td>
+                    <td>
+                     <a class="waves-effect waves-light btn">Remove</a>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+
+</div>
+
+
+
+//     $(".add").click(function(e) {
+//             let con = $(e.target.parentNode.parentNode).find('span').attr('name')
+//             let data = $(e.target.parentNode.parentNode.parentNode.parentNode).find('div').attr('id')
+//             let item = e.target.parentNode.parentNode.parentNode.parentNode.remove()
+//             let picture = $(e.target.parentNode.parentNode).find('img').attr('src')
+//             let itemImage = $(
+//                 `<div class="card sideBar">
+//                           <div class="card-image" id=${data}>
+//                           <img src=${picture} />
+//                           </div>
+//
+//                           <div type="button" class="remove waves-effect waves-light btn" onclick="removeButton(this)">Remove</div>
+//                           <input value="${picture}" type="hidden" name="picture"/>
+//                           </div>`
+//             )
+//             $(itemImage).appendTo(".picturesform")
+//             $(".submit").css("display", "block")
+//             removeCheck()
+//     })

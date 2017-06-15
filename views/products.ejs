@@ -1,0 +1,142 @@
+<div class = "container">
+<h1>Admin Homepage</h1>
+
+
+<a class="waves-effect waves-light btn" href="#productmodal">Add Products</a>
+
+<div id="productmodal" class="modal">
+    <div class="modal-content">
+        Add New Product
+        <form action="/admin/products/add" method="POST" class="col s12" enctype="multipart/form-data">
+            <div class="row">
+                <div class="input-field col s4">
+                    <label for="item"></label>
+                    <input placeholder="Item" id="item" name="item" type="text" class="validate">
+                </div>
+                <div class="input-field col s4">
+                    <label for="price"></label>
+                    <input placeholder="Price" id="price" name="price" type="number" class="validate">
+                </div>
+                <div class="input-field col s4">
+                    <label for="inventory"></label>
+                    <input placeholder="Inventory" id="inventory" name="inventory" type="number" class="validate">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s3">
+                    <select name="availability">
+                      <option value="" disabled selected>Availability</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                </div>
+                <div class="input-field col s3">
+                    <select name="category">
+                      <option value="" disabled selected>Category</option>
+                      <option value="Pants">Pants</option>
+                      <option value="Jeans">Denims</option>
+                      <option value="Shirts">Shirts</option>
+                      <option value="Dresses">Dresses</option>
+                      <option value="Skirts">Skirts</option>
+                      <option value="T-Shirts">T-Shirts</option>
+                    </select>
+                </div>
+                <div class="input-field col s3">
+                    <select name="gender">
+                    <option value="" disabled selected>Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+                <div class="input-field col s3">
+                    Attach Product Picture
+                    <label for="cityPicture"></label>
+                    <input type='file' name='cityPicture'>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <label for="description"></label>
+                    <input placeholder="Description" id="description" name="description" type="text" class="validate">
+                </div>
+            </div>
+            <input type="submit" onclick="<% preload() %>" class="waves-effect waves-light btn" id="submitbtn" />
+
+            <div class="preloader-wrapper" id="preloading">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    <% function preload() { %>
+    document.getElementById('preloading').classList.add('active')
+    <%  }%>
+    $(document).ready(function() {
+        $('#productmodal').modal();
+        $('select').material_select();
+    });
+</script>
+
+
+<div class="row">
+    <div class="col s12">
+        <ul class="tabs">
+            <% gender.forEach(function(data2){ %>
+                <li class="tab col s6">
+                    <a href="#<%= data2 %>">
+                        <%= data2 %>
+                    </a>
+                </li>
+                <%}) %>
+        </ul>
+    </div>
+    <% gender.forEach(function(data2){ %>
+        <div id="<%= data2 %>" class="col s12">
+            <ul class="collapsible" data-collapsible="expandable">
+                <% category.forEach(function (data){ %>
+                    <li>
+                      <div class="collapsible-header">
+                            <%= data %>
+                      </div>
+                        <div class="collapsible-body">
+                          <span>
+                          <% item.forEach(function(data1){ %>
+                            <% if (data1.category == data && data1.gender == data2){ %>
+                              <div class="row">
+                                <div class="col l3 m3 ">
+                                  <div class="card small">
+                                    <div class="card-image">
+                                      <img src="<%= data1.picture %>">
+                                        <span class="card-title"><%= data1.item %>, <%=data1.category %></span>
+                                    </div>
+                                          <div class="card-content">
+                                            <p><%= data1.price %></p>
+                                          </div>
+                                          <div class="card-action">
+                                            <a href="#">This is a link</a>
+                                          </div>
+                                  </div>
+                                </div>
+                              </div>
+                            <% }}) %>
+                            </span>
+                          </div>
+                    </li>
+                  <% }) %>
+                </ul>
+              </div>
+            <% }) %>
+  </div>
+</div>

@@ -1,0 +1,172 @@
+<div class="row">
+    <div class="col s12">
+        <ul class="tabs">
+            <% category.forEach(function(data1){ %>
+                <li class="tab col s3">
+                    <a href="#<%= data1 %>">
+                        <%= data1 %>
+                    </a>
+                </li>
+                <%}) %>
+        </ul>
+    </div>
+    <% category.forEach(function(data1){ %>
+        <div id="<%= data1 %>" class="col s9">
+
+            <div class="row">
+                <div class="col s9 <%= data1 %>">
+                    <% female.forEach(function(data){ %>
+                        <% if (data.category == data1){ %>
+                            <div class="col s5 l5 ">
+                                <div class="card" id="<%= data1 %>">
+                                    <form action="/browse/products/women" class="submit-form" onsubmit="addMore(this)">
+                                        <div class="card-image">
+                                            <img src="<%= data.picture %>">
+                                            <span class="card-title" name="<%= data.category %>"><%= data.item %></span>
+                                            <button class="btn-floating halfway-fab waves-effect waves-light red add"></button>
+                                        </div>
+                                        <div class="card-content">
+                                            <a class="waves-effect waves-light"><i class="material-icons removeqty" onclick="removeqty(this)">remove</i></a>
+                                            <input class="col s7" value="1" type="integer" id="quantity" name="quantity" />
+                                            <a class="waves-effect waves-light"><i class="material-icons addqty" onclick="addqty(this)">add</i></a>
+                                        </div>
+                                        <input value="<%= data.picture %>" type="hidden" id="picture" name="picture" />
+                                    </form>
+                                </div>
+                            </div>
+                            <% }}) %>
+                </div>
+            </div>
+        </div>
+        <%}) %>
+
+            <div class="col s3">
+                <div class="col s10 picturesform">
+                    <% if (currentUser){ %>
+                        <a href="/viewcart" class="submit waves-effect waves-light btn" style="display:none;">Next</a>
+                        <br />
+                        <% } else { %>
+                            <div class="submit waves-effect waves-light btn" style="display:none;">Please Sign In</div>
+                            <% } %>
+                </div>
+            </div>
+</div>
+
+
+<script>
+    //
+    // function removeCheck() {
+    //     if ($(".sideBar").length) {} else {
+    //         $(".submit").css("display", "none")
+    //     }
+    // }
+
+    function addqty(e) {
+        let oldVal = $(e.parentNode.parentNode).find('input').val()
+        let newVal = parseFloat(oldVal) + 1
+        $(e.parentNode.parentNode).find('input').val(newVal)
+    }
+
+    function removeqty(e) {
+        let oldVal = $(e.parentNode.parentNode).find('input').val()
+        let newVal = parseFloat(oldVal) - 1
+        if (newVal < 1) {
+            $(e.parentNode.parentNode).find('input').val(1)
+        } else {
+            $(e.parentNode.parentNode).find('input').val(newVal)
+        }
+    }
+
+    // function addAgain(e) {
+    //     let con = $(e.parentNode).find('span').attr('name')
+    //     let data = $(e.parentNode.parentNode).find('div').attr('id')
+    //     let item = e.parentNode.parentNode.parentNode.remove()
+    //     let picture = $(e.parentNode).find('img').attr('src')
+    //     let itemImage = $(
+    //         `<div class="card sideBar">
+    //                           <div class="card-image" id = ${data}>
+    //                           <img src=${picture} />
+    //                           </div>
+    //                           <div class="card-content">
+    //                             <a class="waves-effect waves-light"><i class="material-icons removeqty" onclick="removeqty(this)">remove</i></a><input class="col s6" value=1 type = "integer" name = "quantity" placeholder="${con}"/><a class="waves-effect waves-light"><i class="material-icons addqty" onclick="addqty(this)">add</i></a>
+    //                           </div>
+    //                           <div type="button" class="remove waves-effect waves-light btn" onclick="removeButton(this)">Remove</div>
+    //                           <input value=${picture} type="hidden" name="picture" />
+    //                           </div>`
+    //     )
+    //     $(itemImage).appendTo(".picturesform")
+    //     $(".submit").css("display", "block")
+    //     removeCheck()
+    // }
+    //
+
+    function addMore(e) {
+        let con = $(e).find('span').attr('name')
+        let data = $(e.parentNode.parentNode).find('div').attr('id')
+        let item = e.parentNode.parentNode.remove()
+        let picture = $(e).find('img').attr('src')
+        let itemImage = $(
+            `<div class="card sideBar">
+                                <div class="card-image" id=${data}>
+                                <img src=${picture} />
+                                </div>
+                                <form action="/browse/products/women" class="remove-form" onsubmit="removeButton(this)">
+                                <button class="waves-effect waves-light btn">Remove</button>
+                                <input value="${picture}" placeholder="${con}" type="hidden" name="picture"/>
+                                </form>
+                                </div>`
+        )
+        $(itemImage).appendTo(".picturesform")
+        $(".submit").css("display", "block")
+    }
+
+    function removeButton(e) {
+        let picture = $(e.parentNode).find('img').attr('src')
+        let con = $(e.parentNode).find('input').attr('placeholder')
+        let data = $(e.parentNode).find('div').attr('id')
+        let target = e.parentNode.remove()
+        let itemImage = $(
+                              `<div class="col l5 s5">
+                              <div class="card">
+                              <div class="card-image" id = ${data}>
+                              <img src=${picture} />
+                              <span class="card-title" name="${con}">${con}</span>
+                              <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+                              </div>
+                              </div>`
+        )
+        $(itemImage).appendTo(`.${data}`)
+    }
+
+    $(document).ready(function() {
+
+        $(".submit-form").submit(function(e) {
+            e.preventDefault()
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    'ah'
+                }
+            })
+        })
+
+        $("body").on('submit', '.remove-form', function(e) {
+          e.preventDefault()
+          alert('remove')
+            $.ajax({
+                type: 'DELETE',
+                url: '/browse/products/women',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    'sh'
+                }
+            })
+
+        })
+
+    })
+</script>

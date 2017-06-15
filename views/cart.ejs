@@ -1,46 +1,53 @@
 <h3>View Your Cart</h3>
 
-
+<div class="row">
+      <div class="col s6">
 <div class="row">
     <table class="highlight col s8">
         <thead>
-            <tr>
-                <th>Bundle</th>
-                <th>Item Name</th>
-                <th>Item Category</th>
-                <th>Item Price</th>
-                <th>Bundle Price</th>
-            </tr>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Item Category</th>
+                            </tr>
         </thead>
 
         <tbody>
-          <% cart.forEach(function(data1){ %>
-            <% data1.items.forEach(function(data2){ %>
-            <% item.forEach(function(data){ %>
-              <% if (data2 == data.id) {%>
-                <tr>
-                    <td>
-                    <% if (data1.bundle === true && data1.gender === "female"){ %>
-                        Women Bundle
-                    <%  } else {%>
-                        Men Bundle
-                        <% } %>
-                    </td>
-                    <td>
-                        <%= data.item %>
-                    </td>
-                    <td>
-                        <%= data.category %>
-                    </td>
-                    <td>
-                        <%= data.price %>
-                    </td>
-                    <td>
-                        <%= data1.price %>
-                    </td>
-                </tr>
-                <% }})})}) %>
+            <% cart.forEach(function(data1){ %>
+                <% if (data1.user == currentUser.id && data1.bundle == true){ %>
+
+                    <tr>
+                        <% data1.items.forEach(function(data2){ %>
+                            <% item.forEach(function(data3){ %>
+                                <% if (data2 == data3.id) { %>
+                                    <td>
+                                        <%= data3.item %>
+                                    </td>
+                                    <td>
+                                        <%= data3.category %>
+                                    </td>
+                    </tr>
+                    <% }})})}}) %>
         </tbody>
     </table>
-
 </div>
+</div>
+
+  <div class="col s3">
+    <div class="card">
+           <div class="card-content">
+             <span class="card-title">Amount</span>
+             Total: $<%= (price*cart.length).toFixed(0) %>
+             <br /><br />
+             <% cart.forEach(function(data){ %>
+               <% if (data.user == currentUser.id && data.bundle === true && data.gender === "female") { %>
+                     Women Bundle:  $<%= data.price %>
+                     <br />
+                     <%  } else {%>
+                       Men Bundle:  $<%= data.price %>
+                       <br />
+
+               <%  }}) %>
+           </div>
+    </div>
+  </div>
+  </div>

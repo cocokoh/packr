@@ -34,12 +34,16 @@
         </div>
         <%}) %>
 
-            <div class="col s3">
-                <form action="/browse/bundle/women" method="POST" class='col s10 picturesform'>
-                    <input type="submit" value="Add To Cart" class="submit waves-effect waves-light btn" style="display:none;" />
-                    <br />
-                </form>
-            </div>
+        <div class="col s3">
+            <form action="/browse/bundle/women" method="POST" class='col s10 picturesform'>
+              <% if (currentUser){ %>
+                <input type="submit" value="next" class="submit waves-effect waves-light btn" style="display:none;" />
+                <br />
+            </form>
+            <% } else { %>
+              <div class="submit waves-effect waves-light btn" style="display:none;">Please Sign In</div>
+              <% } %>
+        </div>
 </div>
 
 <script>

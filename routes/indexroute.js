@@ -39,20 +39,24 @@ router.get('/products/', function(req, res) {
   })
 })
 
-router.get('/viewcart', function(req, res) {
+router.get('/viewcart', isLoggedIn, function(req, res) {
   bundleCart.find({
     user: req.user.id,
     bundle: true
   }, function(err, data) {
     Item.find({}, function(err, data1) {
+      data.forEach(function(data2, index){
+        if(data.length-1 == index){
       res.render('cart', {
         cart: data,
-        item: data1
+        item: data1,
+        price: data2.price
       })
+      }
     })
   })
 })
-
+})
 
 
 router.get('/register', function(req, res) {

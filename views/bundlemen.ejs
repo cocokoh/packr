@@ -34,12 +34,16 @@
         </div>
         <%}) %>
 
-            <div class="col s3">
-                <form action="/browse/bundle/men" method="POST" class='col s10 picturesform'>
-                    <input type="submit" value="Add To Cart" class="submit waves-effect waves-light btn" style="display:none;" />
-                    <br />
-                </form>
-            </div>
+        <div class="col s3">
+            <form action="/browse/bundle/men" method="POST" class='col s10 picturesform'>
+              <% if (currentUser){ %>
+                <input type="submit" value="next" class="submit waves-effect waves-light btn" style="display:none;" />
+                <br />
+            </form>
+            <% } else { %>
+              <div class="submit waves-effect waves-light btn" style="display:none;">Please Sign In</div>
+              <% } %>
+        </div>
 </div>
 
 <script>
@@ -92,7 +96,7 @@
 
     $(document).ready(function() {
         $(".add").click(function(e) {
-          if ($(".sideBar").length < 5){
+          if ($(".sideBar").length < 2){
             let con = $(e.target.parentNode.parentNode).find('span').attr('name')
             let data = $(e.target.parentNode.parentNode.parentNode.parentNode).find('div').attr('id')
             let item = e.target.parentNode.parentNode.parentNode.parentNode.remove()
@@ -110,7 +114,7 @@
             $(".submit").css("display", "block")
             removeCheck()
         } else {
-          alert('only 5 items!')
+          alert('only 2 items!')
         }})
     });
 </script>

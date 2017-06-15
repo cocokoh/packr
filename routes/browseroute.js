@@ -70,19 +70,17 @@ router.post('/bundle/women', function(req, res) {
     var bundle = true
     var price = 69
     var gender = "female"
-    data.forEach(function(each, index) {
+    data.forEach(function(each) {
       item.push(each.id)
-      var newBundle = new bundleCart({items: item, user: user, bundle: bundle, price: price, gender: gender})
-      if (index === data.length - 1) {
-        newBundle.save(function(err, data1) {
+      })
+    var newBundle = new bundleCart({items: item, user: user, bundle: bundle, price: price, gender: gender})
+    newBundle.save(function(err, data1) {
           res.redirect('/viewcart')
-        })
-      }
     })
   })
 })
 
-router.post('/bundle/men', function(req, res) {
+router.post('/bundle/men', isLoggedIn, function(req, res) {
   Item.find({
     picture: req.body.picture,
     gender: "male"
@@ -92,14 +90,12 @@ router.post('/bundle/men', function(req, res) {
     var bundle = true
     var price = 69
     var gender = "male"
-    data.forEach(function(each, index) {
+    data.forEach(function(each) {
       item.push(each.id)
-      var newBundle = new bundleCart({items: item, user: user, bundle: bundle, price: price, gender: gender})
-      newBundle.save(function(err, data1) {
-        if (data.length - 1 === index) {
-          res.redirect('/viewcart')
-        }
       })
+    var newBundle = new bundleCart({items: item, user: user, bundle: bundle, price: price, gender: gender})
+    newBundle.save(function(err, data1) {
+          res.redirect('/viewcart')
     })
   })
 })

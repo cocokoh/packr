@@ -3,3 +3,17 @@
   flex-wrap: wrap;
   max-width: 100%;
 }
+
+.background{
+  background-image: url("../packr.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  z-index: -1;
+}
+
+.home{
+  background-color: transparent;
+  left: 37%;
+  top: 10%;
+}
